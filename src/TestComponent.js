@@ -44,13 +44,14 @@ class TestComponent extends React.Component {
               <div className='testContainer'key={index} >
             <ul >
               <li className='testTitle'>{item[1]}</li>
-              <li>Due Date: {item[2]}</li>
+              <li>Due Date: {item[2].slice(0,16)}</li>
               <li>Tagged Event: {item[3]}</li>
               <li>Tagged Event Date: {item[4]}</li>
               <li>Last taken: {item[5]}</li>
             </ul>
                <button>Reschedule</button>
                <button>Done</button>
+                <button>Edit</button>
                 </div>
           ))}
         </div>
