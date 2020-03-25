@@ -1,12 +1,19 @@
+ul {
+       padding: 0;
+}
+
+li {
+    padding: 1.5rem;
+    list-style: none;
+}
+
+
 .testContainer {
     text-align: center;
     font-size: 1.6rem;
     display: inline-block;
     min-width:300px;
     /*background-color: rgba(249, 186, 25, 1);*/
-background: #1c92d2;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     margin: 1.5rem 0 1.5rem 0;
     padding: 1rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -24,15 +31,6 @@ background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, F
   }
 }
 
-ul {
-       padding: 0;
-}
-
-li {
-    padding: 1.5rem;
-    list-style: none;
-}
-
 .testTitle {
     font-size: 2.2rem;
 }
@@ -41,4 +39,14 @@ li {
   .testContainer {
     font-size: 1.4rem;
   }
+}
+
+.greyd {
+    background-color: lightgrey !important;
+}
+
+.active {
+    background: #1c92d2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f2fcfe, #1c92d2);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
