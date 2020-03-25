@@ -41,7 +41,7 @@ class TestComponent extends React.Component {
       return (
         <div>
           {items.map((item,index) => (
-              <div className={`testContainer${item[6] == 'inactive' ? ' greyd' : ' active'}`} key={index} >
+              <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
                 <ul >
                   <li className='testTitle'>{item[1]}</li>
                   <li>Due Date: {item[2].slice(0,16)}</li>
