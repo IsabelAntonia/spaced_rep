@@ -12,7 +12,6 @@ class App extends Component {
         lastTaken: '',
         dueDate: '',
         statusOfTest: '',
-        showInactives: false,
         creating: false};
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,7 +22,9 @@ class App extends Component {
    handleChange(event) {
     // this.setState({value: event.target.value});
        const target = event.target;
-       const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
+       // const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
+       // const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
+       const value = target.name === 'creating'? !this.state.creating : target.value;
        const name = target.name;
      this.setState({
       [name]: value
@@ -51,7 +52,7 @@ class App extends Component {
       // console.log(this.state.value)
   }
   render() {
-      const showInactives = this.state.showInactives;
+
       const creating = this.state.creating;
     return (
         <>
@@ -84,9 +85,9 @@ class App extends Component {
                 </div>
                 <div className="wrapTests">
                     <p className='heading'>All other tests:</p>
-                        <input name='showInactives' checked={this.state.showInactives} type="checkbox" onChange={this.handleChange}/>
-                        <label style={{fontSize: "1.6rem"}}>Show inactive tests:</label>
-                        <div>The button is {showInactives ? 'active' : 'inactive'}</div>
+
+
+                    {/*<TestComponent showInactives={this.state.showInactives}></TestComponent>*/}
                     <TestComponent></TestComponent>
                 </div>
             </div>

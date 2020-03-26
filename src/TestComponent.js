@@ -8,8 +8,13 @@ class TestComponent extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: []
+      items: [],
+        allItems: [],
+      showInactives: true,
+        noResults: false,
+        update: false
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -19,7 +24,8 @@ class TestComponent extends React.Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            items: result.tests
+            items: result.tests,
+              allItems: result.tests
           });
         },
         (error) => {
@@ -31,6 +37,29 @@ class TestComponent extends React.Component {
       )
   }
 
+
+    handleChange(event) {
+    // this.setState({value: event.target.value});
+       const target = event.target;
+       const value = target.checked;
+       const name = target.name;
+     this.setState({
+      [name]: value, update: true
+    });
+
+  }
+
+  componentDidUpdate(){
+         let filteredItems = this.state.allItems.filter(everyTest => {
+            let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
+                return inactiveFilter;
+      })
+
+        if (this.state.update){
+            this.setState({items: filteredItems, update: false})
+}
+  }
+
   render() {
     const { error, isLoaded, items } = this.state;
     if (error) {
@@ -40,6 +69,10 @@ class TestComponent extends React.Component {
     } else {
       return (
         <div>
+           {/*<div>Inactive tests should be {this.props.showInactives ? 'shown' : 'not shown'}</div>*/}
+           <input name='showInactives' checked={this.state.showInactives} type="checkbox" onChange={this.handleChange}/>
+           <label style={{fontSize: "1.6rem"}}>Show inactive tests:</label>
+            <div>show{this.state.showInactives ? ' inactive tests' : ' only active tests'}</div>
           {items.map((item,index) => (
               <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
                 <ul >

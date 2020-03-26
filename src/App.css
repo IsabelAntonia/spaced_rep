@@ -16,9 +16,10 @@ button {
     background-color: rgba(255, 229, 240, 1);
     padding: 1rem;
     margin-right: 1rem;
+    opacity: 0.8;
 }
 
-button:hover { transform: scale(1.1); }
+button:hover { opacity: 1 }
 
 input {
       -ms-transform: scale(1.5); /* IE 9 */
