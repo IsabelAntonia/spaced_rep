@@ -12,7 +12,8 @@ class App extends Component {
         lastTaken: '',
         dueDate: '',
         statusOfTest: '',
-        creating: false};
+        creating: false
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.sendInput= this.sendInput.bind(this);
@@ -63,12 +64,12 @@ class App extends Component {
             {creating != false &&
                 <div className='form'>
                     <label style={{fontSize: "1.6rem"}}>Name:</label>
-                    <input name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
+                    <input className='inputTestField' name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
                     {/*<input name="dueDate" type='text' value={this.state.dueDate} onChange={this.handleChange}/>*/}
                     <label style={{fontSize: "1.6rem"}}>Relevant event:</label>
-                    <input name="taggedEvent" type='text' value={this.state.taggedEvent} onChange={this.handleChange}/>
+                    <input className='inputTestField' name="taggedEvent" type='text' value={this.state.taggedEvent} onChange={this.handleChange}/>
                     <label style={{fontSize: "1.6rem"}}>Date of event:</label>
-                    <input name="taggedEventDate" type='text' value={this.state.taggedEventDate}
+                    <input className='inputTestField' name="taggedEventDate" type='text' value={this.state.taggedEventDate}
                            onChange={this.handleChange}/>
                     <button name='creating' onClick={() => {
                         this.sendInput();

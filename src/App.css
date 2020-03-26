@@ -65,7 +65,7 @@ input {
     text-decoration: underline;
 }
 
-input[type ='text']{
+.inputTestField {
     display: block;
     margin: 1rem 0 2rem 0;
 

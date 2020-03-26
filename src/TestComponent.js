@@ -12,7 +12,10 @@ class TestComponent extends React.Component {
         allItems: [],
       showInactives: true,
         noResults: false,
-        update: false
+        update: false,
+        optionElements: ['Mathe1 Klausur', 'Gdp Klausur'],
+        selectedEvent: '',
+        searchInput: ''
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -41,8 +44,9 @@ class TestComponent extends React.Component {
     handleChange(event) {
     // this.setState({value: event.target.value});
        const target = event.target;
-       const value = target.checked;
        const name = target.name;
+       const value = name === 'showInactives'? target.checked : target.value;
+
      this.setState({
       [name]: value, update: true
     });
@@ -50,9 +54,12 @@ class TestComponent extends React.Component {
   }
 
   componentDidUpdate(){
+
          let filteredItems = this.state.allItems.filter(everyTest => {
             let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
-                return inactiveFilter;
+            let eventFilter = (everyTest[3] === this.state.selectedEvent) || this.state.selectedEvent === '';
+            let textFilter = (everyTest[1].toUpperCase().includes(this.state.searchInput.toUpperCase()) || this.state.searchInput === '')
+                return inactiveFilter && eventFilter && textFilter;
       })
 
         if (this.state.update){
@@ -67,12 +74,28 @@ class TestComponent extends React.Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
+        let optionElements = []
+        this.state.allItems.forEach(item => {
+            if (!optionElements.includes(item[3])) {
+                optionElements.push(item[3])
+            }
+        })
       return (
         <div>
            {/*<div>Inactive tests should be {this.props.showInactives ? 'shown' : 'not shown'}</div>*/}
+           <div className='filter'>
            <input name='showInactives' checked={this.state.showInactives} type="checkbox" onChange={this.handleChange}/>
            <label style={{fontSize: "1.6rem"}}>Show inactive tests:</label>
-            <div>show{this.state.showInactives ? ' inactive tests' : ' only active tests'}</div>
+            <select name='selectedEvent' value={this.state.selectedEvent} onChange={this.handleChange}>
+                 <option value=''></option>
+                {optionElements.map((option,index) =>(
+                    <option value={option} key={index}>{option}</option>
+                ))}
+            </select>
+            <label style={{fontSize: "1.6rem"}}>Tagged event</label>
+            <input className='textField' type='text' name="searchInput" type='text' value={this.state.searchInput} onChange={this.handleChange}/>
+
+               </div>
           {items.map((item,index) => (
               <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
                 <ul >
