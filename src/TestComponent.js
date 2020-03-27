@@ -22,8 +22,8 @@ class TestComponent extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.transormDate = this.transormDate.bind(this);
-    this.transormCalendarDate = this.transormCalendarDate.bind(this);
+    this.transformDate = this.transformDate.bind(this);
+    this.transformCalendarDate = this.transformCalendarDate.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +67,7 @@ class TestComponent extends React.Component {
   }
 
 
-  transormDate(str){
+  transformDate(str){
      let months = {
     Jan: "01",
     Feb: "02",
@@ -87,7 +87,7 @@ class TestComponent extends React.Component {
    return parts[1] + '.' + months[parts[2]] + '.' + parts[3]
 }
 
-  transormCalendarDate(str){
+  transformCalendarDate(str){
      let months = {
     Jan: "01",
     Feb: "02",
@@ -115,7 +115,7 @@ class TestComponent extends React.Component {
             let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
             let eventFilter = (everyTest[3] === this.state.selectedEvent) || this.state.selectedEvent === '';
             let textFilter = (everyTest[1].toUpperCase().includes(this.state.searchInput.toUpperCase()) || this.state.searchInput === '')
-            let dueDateFilter = (this.transormDate(everyTest[2]) === this.transormCalendarDate(String(this.state.startDate)) || this.state.startDate === '')
+            let dueDateFilter = (this.transformDate(everyTest[2]) === this.transformCalendarDate(String(this.state.startDate)) || this.state.startDate === '')
                 return inactiveFilter && eventFilter && textFilter && dueDateFilter;
       })
 
@@ -170,7 +170,7 @@ class TestComponent extends React.Component {
               <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
                 <ul >
                   <li className='testTitle'>{item[1]}</li>
-                  <li>Due Date: {this.transormDate(item[2])}</li>
+                  <li>Due Date: {this.transformDate(item[2])}</li>
                   <li>Tagged Event: {item[3]}</li>
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>

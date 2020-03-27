@@ -10,8 +10,33 @@ class TestComponentToday extends React.Component {
       items: []
     };
 
-        this.transormDate = this.transormDate.bind(this);
+        this.transformDate = this.transformDate.bind(this);
   }
+
+  componentDidUpdate(){
+
+    if (this.props.refetchCondition) {
+        fetch('/testsToday')
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        items: result.tests
+
+                    });
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    });
+                }
+            )
+        }
+
+  }
+
 
   componentDidMount() {
     fetch('/testsToday')
@@ -32,7 +57,7 @@ class TestComponentToday extends React.Component {
       )
   }
 
-      transormDate(str){
+  transformDate(str){
      let months = {
     Jan: "01",
     Feb: "02",
@@ -53,7 +78,9 @@ class TestComponentToday extends React.Component {
 }
 
   render() {
-    const { error, isLoaded, items } = this.state;
+      // console.log(this.props.refetchCondition)
+      // console.log(this.refetchCondition)
+    const { error, isLoaded, items} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
@@ -65,7 +92,7 @@ class TestComponentToday extends React.Component {
               <div className={`testContainer${item[6] === 'done' ? ' blued' : ' active'}`} key={index} >
                 <ul>
                   <li className='testTitle'>{item[1]}</li>
-                  <li>Due Date: {this.transormDate(item[2])}</li>
+                  <li>Due Date: {this.transformDate(item[2])}</li>
                   <li>Tagged Event: {item[3]}</li>
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>

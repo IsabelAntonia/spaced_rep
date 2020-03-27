@@ -14,7 +14,8 @@ class App extends Component {
         lastTaken: '',
         dueDate: '',
         statusOfTest: '',
-        creating: false
+        creating: false,
+        triggerRefetch: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,7 +31,12 @@ class App extends Component {
 
   }
 
-   handleChange(event) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+      if (this.state.triggerRefetch)
+      this.setState({triggerRefetch: false})
+  }
+
+    handleChange(event) {
     // this.setState({value: event.target.value});
        const target = event.target;
        // const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
@@ -59,7 +65,8 @@ class App extends Component {
       this.setState({creating: !this.state.creating,
       nameOfTest: '',
       taggedEvent: '',
-      taggedEventDate: ''})
+      taggedEventDate: '',
+      triggerRefetch: true})
 
   }
   render() {
@@ -101,7 +108,7 @@ class App extends Component {
             <div className="testSection">
                 <div className="wrapTestsToday">
                     <p className='heading'>What's on for today:</p>
-                    <TestComponentToday></TestComponentToday>
+                    <TestComponentToday refetchCondition={this.state.triggerRefetch}></TestComponentToday>
                 </div>
                 <div className="wrapTests">
                     <p className='heading'>All other tests:</p>
