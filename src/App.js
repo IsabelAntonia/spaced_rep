@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import TestComponentToday from "./TestComponentToday";
 import TestComponent from "./TestComponent";
 import './App.css';
+import DatePicker from "react-datepicker/es";
+import "react-datepicker/dist/react-datepicker.css";
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +19,15 @@ class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.sendInput= this.sendInput.bind(this);
+    this.handleTimeChange= this.handleTimeChange.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+       handleTimeChange(date) {
+    this.setState({
+      taggedEventDate: date
+    })
+
   }
 
    handleChange(event) {
@@ -50,7 +60,7 @@ class App extends Component {
       nameOfTest: '',
       taggedEvent: '',
       taggedEventDate: ''})
-      // console.log(this.state.value)
+
   }
   render() {
 
@@ -64,13 +74,22 @@ class App extends Component {
             {creating != false &&
                 <div className='form'>
                     <label style={{fontSize: "1.6rem"}}>Name:</label>
-                    <input className='inputTestField' name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
+                    <input autoComplete="off" className='inputTestField' name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
                     {/*<input name="dueDate" type='text' value={this.state.dueDate} onChange={this.handleChange}/>*/}
                     <label style={{fontSize: "1.6rem"}}>Relevant event:</label>
-                    <input className='inputTestField' name="taggedEvent" type='text' value={this.state.taggedEvent} onChange={this.handleChange}/>
-                    <label style={{fontSize: "1.6rem"}}>Date of event:</label>
-                    <input className='inputTestField' name="taggedEventDate" type='text' value={this.state.taggedEventDate}
-                           onChange={this.handleChange}/>
+                    <input autoComplete="off" className='inputTestField' name="taggedEvent" type='text' value={this.state.taggedEvent} onChange={this.handleChange}/>
+
+                                            <DatePicker
+              selected={ this.state.taggedEventDate }
+              onChange={ this.handleTimeChange }
+              name="taggedEventDate"
+              placeholderText="Click to select a date"
+              dateFormat="dd.MM.yyyy"
+              autoComplete="off"
+          />
+            {/*<label style={{fontSize: "1.6rem"}}>Date of event:</label>*/}
+            {/*        <input className='inputTestField' name="taggedEventDate" type='text' value={this.state.taggedEventDate}*/}
+            {/*               onChange={this.handleChange}/>*/}
                     <button name='creating' onClick={() => {
                         this.sendInput();
                         }} style={{backgroundColor: "#1c92d2", fontWeight: "bold", margin: "0 auto"}}>Done

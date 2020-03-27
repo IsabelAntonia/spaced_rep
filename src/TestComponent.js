@@ -1,7 +1,6 @@
 import './TestComponent.css';
 import React from 'react';
 import DatePicker from "react-datepicker/es";
-import "react-datepicker/dist/react-datepicker.css";
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -23,6 +22,8 @@ class TestComponent extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.transormDate = this.transormDate.bind(this);
+    this.transormCalendarDate = this.transormCalendarDate.bind(this);
   }
 
   componentDidMount() {
@@ -65,19 +66,62 @@ class TestComponent extends React.Component {
 
   }
 
-  componentDidUpdate(){
 
-      console.log(this.state.startDate)
+  transormDate(str){
+     let months = {
+    Jan: "01",
+    Feb: "02",
+    Mar: "03",
+    Apr: "04",
+    May: "05",
+    Jun: "06",
+    Jul: "07",
+    Aug: "08",
+    Sep: "09",
+    Oct: "10",
+    Nov: "11",
+    Dec: "12"
+  };
+
+   let parts = str.split(' ')
+   return parts[1] + '.' + months[parts[2]] + '.' + parts[3]
+}
+
+  transormCalendarDate(str){
+     let months = {
+    Jan: "01",
+    Feb: "02",
+    Mar: "03",
+    Apr: "04",
+    May: "05",
+    Jun: "06",
+    Jul: "07",
+    Aug: "08",
+    Sep: "09",
+    Oct: "10",
+    Nov: "11",
+    Dec: "12"
+  };
+
+   let parts = str.split(' ')
+   return parts[2] + '.' + months[parts[1]] + '.' + parts[3]
+}
+
+  componentDidUpdate(){
 
 
          let filteredItems = this.state.allItems.filter(everyTest => {
-   console.log(everyTest[2])
+             let parts = everyTest[2].split(" ");
             let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
             let eventFilter = (everyTest[3] === this.state.selectedEvent) || this.state.selectedEvent === '';
             let textFilter = (everyTest[1].toUpperCase().includes(this.state.searchInput.toUpperCase()) || this.state.searchInput === '')
-            let dueDateFilter = (everyTest[2].slice(0,16) === this.state.startDate || this.state.startDate === '')
+            let dueDateFilter = (this.transormDate(everyTest[2]) === this.transormCalendarDate(String(this.state.startDate)) || this.state.startDate === '')
                 return inactiveFilter && eventFilter && textFilter && dueDateFilter;
       })
+
+      if (filteredItems.length === 0 && this.state.update){
+          this.setState({noResults: true})
+      }
 
         if (this.state.update){
             this.setState({items: filteredItems, update: false})
@@ -110,8 +154,7 @@ class TestComponent extends React.Component {
                 ))}
             </select>
             <label style={{fontSize: "1.6rem"}}>Tagged event</label>
-            <input className='textField' type='text' name="searchInput" type='text' value={this.state.searchInput} onChange={this.handleChange}/>
-            <label style={{fontSize: "1.6rem"}}>Name Search</label>
+            <input className='textField' type='text' placeholder='Search for title' name="searchInput" type='text' value={this.state.searchInput} onChange={this.handleChange}/>
             {/*   <input className='textField' type='text' name="selectedDue" type='text' value={this.state.selectedDue} onChange={this.handleChange}/>*/}
             {/*<label style={{fontSize: "1.6rem"}}>Due Date</label>*/}
                         <DatePicker
@@ -119,7 +162,7 @@ class TestComponent extends React.Component {
               onChange={ this.handleTimeChange }
               name="startDate"
               placeholderText="Click to select a date"
-              dateFormat="MM/dd/yyyy"
+              dateFormat="dd.MM.yyyy"
           />
 
                </div>
@@ -127,7 +170,7 @@ class TestComponent extends React.Component {
               <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
                 <ul >
                   <li className='testTitle'>{item[1]}</li>
-                  <li>Due Date: {item[2].slice(0,16)}</li>
+                  <li>Due Date: {this.transormDate(item[2])}</li>
                   <li>Tagged Event: {item[3]}</li>
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>
@@ -137,6 +180,8 @@ class TestComponent extends React.Component {
                 <button>Edit</button>
               </div>
           ))}
+
+          <div>{this.state.noResults ? 'No results' : ''}</div>
         </div>
       );
     }
