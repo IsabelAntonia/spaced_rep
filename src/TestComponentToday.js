@@ -1,5 +1,5 @@
 import './TestComponent.css';
-import React, { Component } from 'react';
+import React from 'react';
 
 class TestComponentToday extends React.Component {
   constructor(props) {
