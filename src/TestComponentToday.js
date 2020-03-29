@@ -89,7 +89,7 @@ class TestComponentToday extends React.Component {
       return (
         <div>
           {items.map((item,index) => (
-              <div className={`testContainer${item[6] === 'done' ? ' blued' : ' active'}`} key={index} >
+              <div className='testContainer active' key={index} >
                 <ul>
                   <li className='testTitle'>{item[1]}</li>
                   <li>Due Date: {this.transformDate(item[2])}</li>
@@ -97,7 +97,6 @@ class TestComponentToday extends React.Component {
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>
                 </ul>
-                <button>Reschedule</button>
                 <button>Done</button>
                 <button>Edit</button>
               </div>

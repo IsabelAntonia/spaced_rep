@@ -12,10 +12,10 @@ class TestComponent extends React.Component {
       isLoaded: false,
       items: [],
         allItems: [],
-      showInactives: true,
+        showInactives: true,
         noResults: false,
         update: false,
-        optionElements: ['Mathe1 Klausur', 'Gdp Klausur'],
+        optionElements: [],
         selectedEvent: '',
         searchInput: '',
         startDate: ''
@@ -175,7 +175,6 @@ class TestComponent extends React.Component {
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>
                 </ul>
-                <button>Reschedule</button>
                 <button>Done</button>
                 <button>Edit</button>
               </div>

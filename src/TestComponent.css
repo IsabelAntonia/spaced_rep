@@ -16,6 +16,7 @@ li {
     /*background-color: rgba(249, 186, 25, 1);*/
     margin: 1.5rem 0 1.5rem 0;
     padding: 1rem;
+    color: #02203c;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -42,7 +43,7 @@ li {
 }
 
 .greyd {
-    background-color: lightgrey !important;
+    background-color: #f6f9fc;
 }
 
 .blued {
@@ -55,9 +56,6 @@ li {
     background: linear-gradient(to right, #f2fcfe, #1c92d2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-label {
-    margin-right: 2rem;
-}
 select {
     margin-right: 1rem;
 }

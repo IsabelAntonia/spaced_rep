@@ -1,32 +1,27 @@
 html {
      font-size: 62.5% !important;
-    color: #273849;
+    color: #02203c;
     font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-family: Ubuntu,Helvetica,Arial,sans-serif;
 }
-
-body {
-    padding: 20px;
-}
-
 
 button {
 
     transition: all .2s ease-in-out;
-    color: #273849;
-    background-color: rgba(255, 229, 240, 1);
+    color: #ffffff;
+    background-color: #626ee3;
     padding: 1rem;
     margin-right: 1rem;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.5);
     opacity: 0.8;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+
 }
 
 button:hover { opacity: 1 }
 
-input {
-      -ms-transform: scale(1.5); /* IE 9 */
-    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
-    transform: scale(1.5);
-    margin-right: 1rem;
-}
 
 .heading {
      font-size: 2.2rem;
@@ -49,8 +44,9 @@ input {
 
 .testSection {
     padding: 2rem;
-    background-color: rgba(255, 229, 240, 1);
+    background: linear-gradient(-90deg,#02203c,#001528);
     margin-top: 2rem;
+    color: #ffffff;
 }
 
 @media only screen and (max-width: 870px) {
@@ -59,10 +55,19 @@ input {
   }
 }
 
-#bigHeading {
-    font-size: 3.4rem;
+.header {
     text-align: center;
+    padding: 4rem;
+    font-size: 2.2rem;
+    line-hight: 1.7;
+
+
+}
+
+#bigHeading {
+    font-size: 3.8rem;
     text-decoration: underline;
+
 }
 
 .inputTestField {
@@ -79,5 +84,13 @@ input {
     flex-direction: column;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     max-width: 70vw;
+     position: relative;
+}
+
+.cross {
+    position: absolute;
+    left: 1.5rem;
+    top: 1.5rem;
+
 }
 
