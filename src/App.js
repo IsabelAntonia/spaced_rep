@@ -39,20 +39,10 @@ class App extends Component {
   }
 
     handleChange(event) {
-    // this.setState({value: event.target.value});
-       const target = event.target;
-       var name;
-       if (target.getAttribute('name') === 'cross'){
-           name = 'creating'
-       }
-       else {
-           name = target.name
-       }
 
-       // const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
-       // const value = target.name === 'showInactives' ? target.checked : target.name === 'creating'? !this.state.creating : target.value;
+       const target = event.target;
+       const name = target.name || target.getAttribute('name')
        const value = name === 'creating'? !this.state.creating : target.value;
-       console.log(value)
 
      this.setState({
       [name]: value
@@ -94,7 +84,7 @@ class App extends Component {
              </div>
             {creating != false &&
                 <div className='form'>
-                    <div onClick={this.handleChange}  name='cross'> <i name='cross' onClick={this.handleChange} className="material-icons cross">close</i></div>
+                    <i name='creating' onClick={this.handleChange} className="material-icons cross">close</i>
 
                     <label style={{fontSize: "1.6rem"}}>Name:</label>
                     <input autoComplete="off" className='inputTestField' name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
