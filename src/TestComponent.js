@@ -109,6 +109,9 @@ class TestComponent extends React.Component {
       if (filteredItems.length === 0 && this.state.update){
           this.setState({noResults: true})
       }
+      if (filteredItems.length !== 0 && this.state.update){
+          this.setState({noResults: false})
+      }
 
         if (this.state.update){
             this.setState({items: filteredItems, update: false})
@@ -167,7 +170,9 @@ class TestComponent extends React.Component {
               </div>
           ))}
 
-          <div>{this.state.noResults ? 'No results' : ''}</div>
+            {this.state.noResults &&
+             <div style={{textAlign: 'center', fontSize: '2.2rem', marginTop: '2rem'}}>No results</div>}
+
         </div>
       );
     }

@@ -139,7 +139,7 @@ class App extends Component {
              <button name='creating' onClick={this.handleChange} style={{transform: 'scale(1.2)', marginTop: '4rem'}}>Create new quiz</button>
              }
              </div>
-            {creating != false &&
+            {creating &&
                 <div className='form'>
                     <i name='creating' onClick={this.handleChange} className="material-icons cross">close</i>
 
