@@ -57,6 +57,7 @@ class TestComponentToday extends React.Component {
       )
   }
 
+  // for render transforms dueDate to nice Format like '22.04.2020'
   transformDate(str){
       let parts = str.split('-')
       return parts[2] + '.'+ parts[1] + '.'+ parts[0]

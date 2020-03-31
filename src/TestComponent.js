@@ -66,12 +66,14 @@ class TestComponent extends React.Component {
 
   }
 
-
+// for filters and render transforms due Date to Date Format like '10.03.2020'
   transformDate(str){
       let parts = str.split('-')
       return parts[2] + '.'+ parts[1] + '.'+ parts[0]
 }
 
+
+// for filter transforms selected Calendar Date to '10.03.2020'
   transformCalendarDate(str){
      let months = {
     Jan: "01",

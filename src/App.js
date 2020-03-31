@@ -22,13 +22,23 @@ class App extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.sendInput= this.sendInput.bind(this);
-    this.handleTimeChange= this.handleTimeChange.bind(this);
+    this.setTaggedEventDate= this.setTaggedEventDate.bind(this);
+    this.transformCalendarDate= this.transformCalendarDate.bind(this);
+    this.transformCalendarDateToDate= this.transformCalendarDateToDate.bind(this);
+    this.setDueDate= this.setDueDate.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-       handleTimeChange(date) {
+       setTaggedEventDate(date) {
     this.setState({
       taggedEventDate: date
+    })
+
+  }
+
+       setDueDate(date) {
+    this.setState({
+      dueDate: date
     })
 
   }
@@ -49,7 +59,53 @@ class App extends Component {
     });
   }
 
+  // tranforms dueDate selected in calendar to Date Format for db like '2020-03-24' work then this.sendInout
+    transformCalendarDateToDate(str){
+     let months = {
+    Jan: "01",
+    Feb: "02",
+    Mar: "03",
+    Apr: "04",
+    May: "05",
+    Jun: "06",
+    Jul: "07",
+    Aug: "08",
+    Sep: "09",
+    Oct: "10",
+    Nov: "11",
+    Dec: "12"
+  };
+
+   let parts = str.split(' ')
+   return parts[3] + '-' + months[parts[1]] + '-' + parts[2]
+}
+
+// transforms taggedEventDate selected in calendar to String like '24.03.2020'
+  transformCalendarDate(str){
+     let months = {
+    Jan: "01",
+    Feb: "02",
+    Mar: "03",
+    Apr: "04",
+    May: "05",
+    Jun: "06",
+    Jul: "07",
+    Aug: "08",
+    Sep: "09",
+    Oct: "10",
+    Nov: "11",
+    Dec: "12"
+  };
+
+   let parts = str.split(' ')
+   return parts[2] + '.' + months[parts[1]] + '.' + parts[3]
+}
+
   sendInput(e) {
+
+      const dueDate = this.transformCalendarDateToDate(String(this.state.dueDate))
+      const taggedEventDate = this.transformCalendarDate(String(this.state.taggedEventDate))
+
         fetch("/sendTest", {
             method: "POST",
             headers: {
@@ -57,9 +113,9 @@ class App extends Component {
     },
             body: JSON.stringify({
                 'name': this.state.nameOfTest,
-                'dueDate': '2020-03-26',
+                'dueDate': dueDate,
                 'taggedEvent': this.state.taggedEvent,
-                'taggedEventDate': this.state.taggedEventDate,
+                'taggedEventDate': taggedEventDate,
                 'lastTaken': this.state.lastTaken,
                 'status': this.state.statusOfTest})
         })
@@ -67,6 +123,7 @@ class App extends Component {
       nameOfTest: '',
       taggedEvent: '',
       taggedEventDate: '',
+          dueDate: '',
       triggerRefetch: true})
 
   }
@@ -88,26 +145,28 @@ class App extends Component {
 
                     <label style={{fontSize: "1.6rem"}}>Name:</label>
                     <input autoComplete="off" className='inputTestField' name="nameOfTest" type='text' value={this.state.nameOfTest} onChange={this.handleChange}/>
-                    {/*<input name="dueDate" type='text' value={this.state.dueDate} onChange={this.handleChange}/>*/}
+                    <label style={{fontSize: "1.6rem"}}>Initially due:</label>
+                    <DatePicker
+                           selected={ this.state.dueDate }
+                           onChange={ this.setDueDate }
+                           name="dueDate"
+                           placeholderText="Click to select a date"
+                           dateFormat="dd.MM.yyyy"
+                           autoComplete="off"/>
                     <label style={{fontSize: "1.6rem"}}>Relevant event:</label>
                     <input autoComplete="off" className='inputTestField' name="taggedEvent" type='text' value={this.state.taggedEvent} onChange={this.handleChange}/>
-
-                                            <DatePicker
-              selected={ this.state.taggedEventDate }
-              onChange={ this.handleTimeChange }
-              name="taggedEventDate"
-              placeholderText="Click to select a date"
-              dateFormat="dd.MM.yyyy"
-              autoComplete="off"
-          />
-            {/*<label style={{fontSize: "1.6rem"}}>Date of event:</label>*/}
-            {/*        <input className='inputTestField' name="taggedEventDate" type='text' value={this.state.taggedEventDate}*/}
-            {/*               onChange={this.handleChange}/>*/}
+                    <label style={{fontSize: "1.6rem"}}>Date of relevant event:</label>
+                    <DatePicker
+                           selected={ this.state.taggedEventDate }
+                           onChange={ this.setTaggedEventDate }
+                           name="taggedEventDate"
+                           placeholderText="Click to select a date"
+                           dateFormat="dd.MM.yyyy"
+                           autoComplete="off"/>
                     <button name='creating' onClick={() => {
                         this.sendInput();
                         }} style={{margin: "4rem auto 0 auto"}}>Done
                     </button>
-
                 </div>
             }
 
