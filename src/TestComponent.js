@@ -57,9 +57,6 @@ class TestComponent extends React.Component {
 
   showModal(event){
   this.props.controlModal(true);
-  // this.setState({
-  //     modalShown: true
-  // })
   }
 
   handleChange(event) {
