@@ -84,7 +84,7 @@ class TestComponentToday extends React.Component {
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>
                 </ul>
-                <button>Done</button>
+                <button>Completed</button>
                 <button>Edit</button>
               </div>
           ))}

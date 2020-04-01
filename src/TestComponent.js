@@ -1,7 +1,6 @@
 import './TestComponent.css';
 import React from 'react';
 import DatePicker from "react-datepicker/es";
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 class TestComponent extends React.Component {
@@ -19,11 +18,14 @@ class TestComponent extends React.Component {
         selectedEvent: '',
         searchInput: '',
         startDate: ''
+        // modalShown: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.transformDate = this.transformDate.bind(this);
     this.transformCalendarDate = this.transformCalendarDate.bind(this);
+    this.showModal = this.showModal.bind(this);
+
   }
 
   componentDidMount() {
@@ -46,16 +48,22 @@ class TestComponent extends React.Component {
       )
   }
 
-     handleTimeChange(date) {
+  handleTimeChange(date) {
     this.setState({
       startDate: date, update: true
     })
 
   }
 
+  showModal(event){
+  this.props.controlModal(true);
+  // this.setState({
+  //     modalShown: true
+  // })
+  }
 
-    handleChange(event) {
-    // this.setState({value: event.target.value});
+  handleChange(event) {
+
        const target = event.target;
        const name = target.name;
        const value = name === 'showInactives' ? target.checked : target.value;
@@ -71,7 +79,6 @@ class TestComponent extends React.Component {
       let parts = str.split('-')
       return parts[2] + '.'+ parts[1] + '.'+ parts[0]
 }
-
 
 // for filter transforms selected Calendar Date to '10.03.2020'
   transformCalendarDate(str){
@@ -96,13 +103,12 @@ class TestComponent extends React.Component {
 
   componentDidUpdate(){
 
-
          let filteredItems = this.state.allItems.filter(everyTest => {
              let parts = everyTest[2].split(" ");
-            let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
-            let eventFilter = (everyTest[3] === this.state.selectedEvent) || this.state.selectedEvent === '';
-            let textFilter = (everyTest[1].toUpperCase().includes(this.state.searchInput.toUpperCase()) || this.state.searchInput === '')
-            let dueDateFilter = (this.transformDate(everyTest[2]) === this.transformCalendarDate(String(this.state.startDate)) || this.state.startDate === '')
+             let inactiveFilter = ((everyTest[6] === 'inactive') == this.state.showInactives || everyTest[6] !== 'inactive');
+             let eventFilter = (everyTest[3] === this.state.selectedEvent) || this.state.selectedEvent === '';
+             let textFilter = (everyTest[1].toUpperCase().includes(this.state.searchInput.toUpperCase()) || this.state.searchInput === '')
+             let dueDateFilter = (this.transformDate(everyTest[2]) === this.transformCalendarDate(String(this.state.startDate)) || this.state.startDate === null)
                 return inactiveFilter && eventFilter && textFilter && dueDateFilter;
       })
 
@@ -113,7 +119,7 @@ class TestComponent extends React.Component {
           this.setState({noResults: false})
       }
 
-        if (this.state.update){
+      if (this.state.update){
             this.setState({items: filteredItems, update: false})
 }
   }
@@ -133,7 +139,7 @@ class TestComponent extends React.Component {
         })
       return (
         <div>
-           {/*<div>Inactive tests should be {this.props.showInactives ? 'shown' : 'not shown'}</div>*/}
+
            <div className='filter'>
            <input name='showInactives' checked={this.state.showInactives} type="checkbox" onChange={this.handleChange}/>
            <label style={{fontSize: "1.6rem"}}>Show inactive tests:</label>
@@ -145,16 +151,12 @@ class TestComponent extends React.Component {
             </select>
             <label style={{fontSize: "1.6rem"}}>Tagged event</label>
             <input className='textField' type='text' placeholder='Search for title' name="searchInput" type='text' value={this.state.searchInput} onChange={this.handleChange}/>
-            {/*   <input className='textField' type='text' name="selectedDue" type='text' value={this.state.selectedDue} onChange={this.handleChange}/>*/}
-            {/*<label style={{fontSize: "1.6rem"}}>Due Date</label>*/}
-                        <DatePicker
+            <DatePicker
               selected={ this.state.startDate }
               onChange={ this.handleTimeChange }
               name="startDate"
               placeholderText="Click to select a date"
-              dateFormat="dd.MM.yyyy"
-          />
-
+              dateFormat="dd.MM.yyyy"/>
                </div>
           {items.map((item,index) => (
               <div className={`testContainer${item[6] === 'inactive' ? ' greyd' : ' active'}`} key={index} >
@@ -165,9 +167,10 @@ class TestComponent extends React.Component {
                   <li>Tagged Event Date: {item[4]}</li>
                   <li>Last taken: {item[5]}</li>
                 </ul>
-                <button>Done</button>
+                <button onClick={this.showModal}>Completed</button>
                 <button>Edit</button>
               </div>
+
           ))}
 
             {this.state.noResults &&

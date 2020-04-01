@@ -17,7 +17,8 @@ class App extends Component {
         dueDate: '',
         statusOfTest: '',
         creating: false,
-        triggerRefetch: false
+        triggerRefetch: false,
+        completed: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,6 +27,8 @@ class App extends Component {
     this.transformCalendarDate= this.transformCalendarDate.bind(this);
     this.transformCalendarDateToDate= this.transformCalendarDateToDate.bind(this);
     this.setDueDate= this.setDueDate.bind(this);
+    this.showModal= this.showModal.bind(this);
+    this.closeModal= this.closeModal.bind(this);
     // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -34,6 +37,19 @@ class App extends Component {
       taggedEventDate: date
     })
 
+  }
+
+  showModal(boolean){
+      this.setState({
+          completed: boolean
+      })
+  }
+
+  closeModal(event){
+
+      this.setState({
+          completed: false
+      })
   }
 
        setDueDate(date) {
@@ -132,6 +148,11 @@ class App extends Component {
       const creating = this.state.creating;
     return (
         <>
+                 {this.state.completed &&
+            <div className='completedModal'>Set to inactive or schedule new due date
+                 <i onClick={this.closeModal} className="material-icons">close</i>
+            </div>}
+            <div className={this.state.completed? 'blurred': null} id='background'>
             <div className='header'>
             <p id="bigHeading">Dashboard</p>
                 <p>Create quizes and schedule them with the help of our algorithm. Introduce time intervalls between your study sessions to <span style={{color: '#f44292'}}> remember more and study less.</span></p>
@@ -180,9 +201,10 @@ class App extends Component {
 
 
                     {/*<TestComponent showInactives={this.state.showInactives}></TestComponent>*/}
-                    <TestComponent></TestComponent>
+                    <TestComponent controlModal={this.showModal} ></TestComponent>
                 </div>
             </div>
+                </div>
           </>
     );
   }
