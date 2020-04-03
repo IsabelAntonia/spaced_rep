@@ -37,20 +37,12 @@ button:hover { opacity: 1 }
     font-size: 1rem;
   }
 }
-
-.wrapTestsToday{
-    display: inline;
-}
-
-.wrapTests{
-    display: inline;
-}
-
 .testSection {
     padding: 2rem;
     background: linear-gradient(-90deg,#02203c,#001528);
     margin-top: 2rem;
     color: #ffffff;
+
 }
 
 @media only screen and (max-width: 870px) {
