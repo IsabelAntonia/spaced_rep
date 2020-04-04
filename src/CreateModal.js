@@ -7,20 +7,55 @@ class CreateModal extends React.Component {
     super(props);
     this.state = {
       nameOfTest: "",
-      taggedEvent: "",
-      taggedEventDate: "",
-      lastTaken: "",
+      taggedEvent: "no tagged event",
+      taggedEventDate: "no tagged event date",
+      lastTaken: "never taken",
       dueDate: "",
-      statusOfTest: "",
+      statusOfTest: "due",
+      validInput: true,
+      noDueDate: false,
+      noName: false
     };
 
     this.closeModal = this.closeModal.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.postQuiz = this.postQuiz.bind(this);
     this.transformCalendarDate = this.transformCalendarDate.bind(this);
-    this.transformCalendarDateToDate = this.transformCalendarDateToDate.bind(this);
+    this.transformCalendarDateToDate = this.transformCalendarDateToDate.bind(
+      this
+    );
     this.setTaggedEventDate = this.setTaggedEventDate.bind(this);
     this.setDueDate = this.setDueDate.bind(this);
+    this.verifyInput = this.verifyInput.bind(this);
+  }
+
+  verifyInput() {
+    let noName = false;
+    let noDueDate = false;
+
+    if (this.state.dueDate === "") {
+      noDueDate = true;
+      this.setState({
+        noDueDate: true
+      })
+
+    }
+
+    if (this.state.nameOfTest === "") {
+      noName = true;
+      this.setState({
+        noName: true
+      })
+    }
+
+
+    if (noName || noDueDate) {
+      return false;
+    }
+
+    else {
+      return true;
+    }
   }
 
   handleChange(e) {
@@ -73,7 +108,7 @@ class CreateModal extends React.Component {
     return parts[2] + "." + months[parts[1]] + "." + parts[3];
   }
 
-    // in all modals user picks a due date from calendar
+  // in all modals user picks a due date from calendar
   setDueDate(date) {
     this.setState({
       dueDate: date,
@@ -88,37 +123,53 @@ class CreateModal extends React.Component {
   }
 
   postQuiz(e) {
-    const dueDate = this.transformCalendarDateToDate(
-      String(this.state.dueDate)
-    );
-    const taggedEventDate = this.transformCalendarDate(
-      String(this.state.taggedEventDate)
-    );
 
-    fetch("/sendTest", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: this.state.nameOfTest,
-        dueDate: dueDate,
-        taggedEvent: this.state.taggedEvent,
-        taggedEventDate: taggedEventDate,
-        lastTaken: this.state.lastTaken,
-        status: this.state.statusOfTest,
-      }),
-    });
-    this.setState({
-      nameOfTest: "",
-      taggedEvent: "",
-      taggedEventDate: "",
-      dueDate: "",
-    });
+    const validInput = this.verifyInput();
+    if (validInput) {
+      const dueDate = this.transformCalendarDateToDate(
+        String(this.state.dueDate)
+      );
 
-    this.props.controlModal(false);
-    this.props.triggerRefetch(true);
+      let taggedEventDate = this.state.taggedEventDate;
+      // only transform taggedEventDate if a date was selected
+      if (this.state.taggedEventDate !== 'no tagged event date'){ // a date was selected in calendar
+        taggedEventDate  = this.transformCalendarDate(String(this.state.taggedEventDate));
+      }
+
+      fetch("/sendTest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: this.state.nameOfTest,
+          dueDate: dueDate,
+          taggedEvent: this.state.taggedEvent,
+          taggedEventDate: taggedEventDate,
+          lastTaken: this.state.lastTaken,
+          status: this.state.statusOfTest,
+        }),
+      });
+
+      this.setState({
+        nameOfTest: "",
+        taggedEvent: "no tagged event",
+        taggedEventDate: "no tagged event date",
+        dueDate: "",
+      });
+
+      this.props.controlModal(false);
+      this.props.triggerRefetch(true);
+    }
+
+    else {
+      this.setState({
+        validInput : false
+      })
+    }
   }
+
+  // if input is valid proceed else return error message
 
   closeModal(event) {
     this.props.controlModal(false);
@@ -130,9 +181,8 @@ class CreateModal extends React.Component {
         <i onClick={this.closeModal} className="material-icons cross">
           close
         </i>
-        {/*  <div className="form">*/}
-
         <label style={{ fontSize: "1.6rem" }}>Name:</label>
+        {this.state.noName && <span style={{color: 'red'}}>Required</span>}
         <input
           autoComplete="off"
           className="inputTestField"
@@ -142,6 +192,7 @@ class CreateModal extends React.Component {
           onChange={this.handleChange}
         />
         <label style={{ fontSize: "1.6rem" }}>Initially due:</label>
+        {this.state.noDueDate && <span style={{color: 'red'}}>Required</span>}
         <DatePicker
           selected={this.state.dueDate}
           onChange={this.setDueDate}
@@ -150,18 +201,20 @@ class CreateModal extends React.Component {
           dateFormat="dd.MM.yyyy"
           autoComplete="off"
         />
+        <div>Optional:</div>
         <label style={{ fontSize: "1.6rem" }}>Relevant event:</label>
         <input
           autoComplete="off"
           className="inputTestField"
           name="taggedEvent"
           type="text"
-          value={this.state.taggedEvent}
+          value={""}
           onChange={this.handleChange}
         />
         <label style={{ fontSize: "1.6rem" }}>Date of relevant event:</label>
         <DatePicker
-          selected={this.state.taggedEventDate}
+          // selected={this.state.taggedEventDate}
+          selected={""}
           onChange={this.setTaggedEventDate}
           name="taggedEventDate"
           placeholderText="Click to select a date"
@@ -170,15 +223,11 @@ class CreateModal extends React.Component {
         />
         <button
           onClick={this.postQuiz}
-          // onClick={() => {
-          //   this.postQuiz();
-          // }}
           style={{ margin: "4rem auto 0 auto" }}
         >
           Done
         </button>
-        {/*  </div>*/}
-        {/*)}*/}
+        {!this.state.validInput && <div style={{color: 'red'}}>Please fill out the required fields.</div>}
       </div>
     );
   }
