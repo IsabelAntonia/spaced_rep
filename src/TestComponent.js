@@ -105,6 +105,7 @@ class TestComponent extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log(this.state.startDate)
     if (this.state.allItems.length === 0 && !this.state.noQuizes) {
       this.setState({
         noQuizes: true,
@@ -112,8 +113,8 @@ class TestComponent extends React.Component {
       //this.props.noFutureQuizes(true)
     }
 
+
     let filteredItems = this.state.allItems.filter((everyTest) => {
-      let parts = everyTest[2].split(" ");
       let inactiveFilter =
         (everyTest[6] === "inactive") == this.state.showInactives ||
         everyTest[6] !== "inactive";
@@ -128,9 +129,11 @@ class TestComponent extends React.Component {
       let dueDateFilter =
         this.transformDate(everyTest[2]) ===
           this.transformCalendarDate(String(this.state.startDate)) ||
-        this.state.startDate === null;
+        this.state.startDate === '' || this.state.startDate === null;
+
       return inactiveFilter && eventFilter && textFilter && dueDateFilter;
     });
+
 
     if (filteredItems.length === 0 && this.state.update) {
       this.setState({ noResults: true });
