@@ -105,12 +105,11 @@ class TestComponent extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.startDate)
+
     if (this.state.allItems.length === 0 && !this.state.noQuizes) {
       this.setState({
         noQuizes: true,
       });
-      //this.props.noFutureQuizes(true)
     }
 
 

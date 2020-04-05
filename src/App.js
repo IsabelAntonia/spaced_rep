@@ -121,7 +121,8 @@ class App extends Component {
                 <p className="heading">Scheduled for today:</p>
                 <TestComponentToday
                   refetchCondition={this.state.refetch}
-                  // noTodayQuizes={this.controlTodayQuizSection}
+                  controlCompletedModal={this.showCompletedModal}
+                  controlEditModal={this.showEditModal}
                 ></TestComponentToday>
               </div>
               <div className="wrapTests">
@@ -132,7 +133,6 @@ class App extends Component {
                 </span>
                 {/*TestComponent constrols show of CompletedModal; CompletedModal controlls close*/}
                 <TestComponent
-                  // noFutureQuizes={this.controlQuizSection}
                   refetchCondition={this.state.refetch}
                   controlCompletedModal={this.showCompletedModal}
                   controlEditModal={this.showEditModal}
