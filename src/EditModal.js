@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker/es";
 import './Modal.css'
 
 
-class CompletedModal extends React.Component{
+class EditModal extends React.Component{
 
       constructor(props) {
     super(props);
@@ -13,14 +13,16 @@ class CompletedModal extends React.Component{
   }
 
   closeModal(event){
-  this.props.controlCompletedModal(false);
+  this.props.controlEditModal(false);
   }
 
 render() {
     return (
                   <div className="modal">
             <i onClick={this.closeModal} className="material-icons cross">close</i>
-                      <label style={{ fontSize: "1.6rem" }}>Schedule new due Date:</label>
+                      <label style={{ fontSize: "1.6rem" }}>Deactivate this quiz</label>
+                      <label style={{ fontSize: "1.6rem" }}>Quizzes are deactivated if they have no future due date</label>
+
               {/*            <DatePicker*/}
               {/*  selected={this.state.dueDate}*/}
               {/*  onChange={this.setDueDate}*/}
@@ -34,4 +36,4 @@ render() {
 }
 }
 
-export default CompletedModal;
+export default EditModal;

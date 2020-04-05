@@ -56,7 +56,13 @@ class TestComponent extends React.Component {
   }
 
   showModal(event) {
-    this.props.controlModal(true);
+    if (event.target.innerHTML === 'Completed'){
+      this.props.controlCompletedModal(true);
+    }
+    else {
+      this.props.controlEditModal(true);
+    }
+
   }
 
   handleChange(event) {
@@ -240,10 +246,9 @@ class TestComponent extends React.Component {
                     <li>Last taken: {item[5]}</li>
                   </ul>
                   <button onClick={this.showModal}>Completed</button>
-                  <button>Edit</button>
+                  <button onClick={this.showModal}>Edit</button>
                 </div>
               ))}
-
               {this.state.noResults && (
                 <div
                   style={{

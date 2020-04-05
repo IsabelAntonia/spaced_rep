@@ -177,7 +177,7 @@ class CreateModal extends React.Component {
 
   render() {
     return (
-      <div className="completedModal">
+      <div className="modal">
         <i onClick={this.closeModal} className="material-icons cross">
           close
         </i>

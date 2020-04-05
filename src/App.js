@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TestComponentToday from "./TestComponentToday";
 import TestComponent from "./TestComponent";
 import CompletedModal from "./CompletedModal";
+import EditModal from "./EditModal";
 import "./App.css";
 import CreateModal from "./CreateModal";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,10 +14,12 @@ class App extends Component {
       creating: false,
       refetch: false,
       completed: false,
+      edit: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.showModal = this.showModal.bind(this);
+    this.showCompletedModal = this.showCompletedModal.bind(this);
+    this.showEditModal = this.showEditModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.controlRefetch = this.controlRefetch.bind(this);
   }
@@ -28,9 +31,15 @@ class App extends Component {
   }
 
   // on TestComponent
-  showModal(boolean) {
+  showCompletedModal(boolean) {
     this.setState({
       completed: boolean,
+    });
+  }
+
+  showEditModal(boolean) {
+    this.setState({
+      edit: boolean,
     });
   }
 
@@ -39,6 +48,7 @@ class App extends Component {
     this.setState({
       completed: boolean,
       creating: boolean,
+      edit: boolean
     });
   }
 
@@ -66,7 +76,18 @@ class App extends Component {
       <>
         {/*completedModal*/}
         {this.state.completed && (
-          <CompletedModal controlModal={this.closeModal} />
+          <CompletedModal controlCompletedModal={this.closeModal} />
+        )}
+        {/*editModal*/}
+        {this.state.edit && (
+          <EditModal controlEditModal={this.closeModal} />
+        )}
+        {/*create new quiz modal*/}
+        {creating && (
+          <CreateModal
+            triggerRefetch={this.controlRefetch}
+            controlModal={this.closeModal}
+          ></CreateModal>
         )}
         {/*background of modal*/}
         <div
@@ -93,35 +114,31 @@ class App extends Component {
               </button>
             )}
           </div>
-          {/*create new quiz modal*/}
-          {creating && (
-            <CreateModal
-              triggerRefetch={this.controlRefetch}
-              controlModal={this.closeModal}
-            ></CreateModal>
-          )}
           {/*TestSection*/}
           <div className="testSection">
-              <>
-                <div className="wrapTestsToday">
-                  <p className="heading">Scheduled for today:</p>
-                    <TestComponentToday
-                      refetchCondition={this.state.refetch}
-                      // noTodayQuizes={this.controlTodayQuizSection}
-                    ></TestComponentToday>
-
-                </div>
-                <div className="wrapTests">
-                  <span className="heading">Your quiz collection:</span> <span>Shows you all your future and past quizzes except those scheduled for today.</span>
-                  {/*TestComponent constrols show of CompletedModal; CompletedModal controlls close*/}
-                  <TestComponent
-                    // noFutureQuizes={this.controlQuizSection}
-                    refetchCondition={this.state.refetch}
-                    controlModal={this.showModal}
-                  ></TestComponent>
-                </div>
-              </>
-
+            <>
+              <div className="wrapTestsToday">
+                <p className="heading">Scheduled for today:</p>
+                <TestComponentToday
+                  refetchCondition={this.state.refetch}
+                  // noTodayQuizes={this.controlTodayQuizSection}
+                ></TestComponentToday>
+              </div>
+              <div className="wrapTests">
+                <span className="heading">Your quiz collection:</span>{" "}
+                <span>
+                  Shows you all your future and past quizzes except those
+                  scheduled for today.
+                </span>
+                {/*TestComponent constrols show of CompletedModal; CompletedModal controlls close*/}
+                <TestComponent
+                  // noFutureQuizes={this.controlQuizSection}
+                  refetchCondition={this.state.refetch}
+                  controlCompletedModal={this.showCompletedModal}
+                  controlEditModal={this.showEditModal}
+                ></TestComponent>
+              </div>
+            </>
           </div>
         </div>
       </>
