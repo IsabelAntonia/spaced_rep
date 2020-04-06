@@ -80,7 +80,7 @@ class App extends Component {
         )}
         {/*editModal*/}
         {this.state.edit && (
-          <EditModal controlEditModal={this.closeModal} />
+          <EditModal triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
         )}
         {/*create new quiz modal*/}
         {creating && (

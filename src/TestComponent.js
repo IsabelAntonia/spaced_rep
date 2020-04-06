@@ -112,7 +112,6 @@ class TestComponent extends React.Component {
       });
     }
 
-
     let filteredItems = this.state.allItems.filter((everyTest) => {
       let inactiveFilter =
         (everyTest[6] === "inactive") == this.state.showInactives ||
