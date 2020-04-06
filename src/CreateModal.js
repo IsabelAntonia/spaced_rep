@@ -136,7 +136,7 @@ class CreateModal extends React.Component {
         taggedEventDate  = this.transformCalendarDate(String(this.state.taggedEventDate));
       }
 
-      fetch("/sendTest", {
+      fetch("/postQuiz", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
