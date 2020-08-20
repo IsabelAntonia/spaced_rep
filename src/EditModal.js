@@ -28,13 +28,14 @@ class EditModal extends React.Component {
   }
 
   delete(event) {
-      let url = "/deleteQuiz/Stetigkeit"
+      let quizName = this.props.relevantQuiz;
+      let url = "/deleteQuiz/"+quizName;
+    console.log(url)
     fetch(url, {
       method: "DELETE",
     });
     this.props.triggerRefetch(true);
     this.props.controlEditModal(false);
-
   }
 
   closeModal(event) {

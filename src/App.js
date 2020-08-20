@@ -15,6 +15,7 @@ class App extends Component {
       refetch: false,
       completed: false,
       edit: false,
+      relevantQuizName: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,12 +23,19 @@ class App extends Component {
     this.showEditModal = this.showEditModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.controlRefetch = this.controlRefetch.bind(this);
+    this.controlRelevantQuiz = this.controlRelevantQuiz.bind(this);
   }
 
   controlRefetch(boolean) {
     this.setState({
       refetch: boolean,
     });
+  }
+
+  controlRelevantQuiz(name){
+    this.setState({
+      relevantQuizName: name,
+    })
   }
 
   // on TestComponent
@@ -80,7 +88,7 @@ class App extends Component {
         )}
         {/*editModal*/}
         {this.state.edit && (
-          <EditModal triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
+          <EditModal relevantQuiz={this.state.relevantQuizName} triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
         )}
         {/*create new quiz modal*/}
         {creating && (
@@ -120,6 +128,7 @@ class App extends Component {
               <div className="wrapTestsToday">
                 <p className="heading">Scheduled for today:</p>
                 <TestComponentToday
+                  deliverRelevantQuiz={this.controlRelevantQuiz}
                   refetchCondition={this.state.refetch}
                   controlCompletedModal={this.showCompletedModal}
                   controlEditModal={this.showEditModal}
