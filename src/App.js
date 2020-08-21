@@ -84,7 +84,7 @@ class App extends Component {
       <>
         {/*completedModal*/}
         {this.state.completed && (
-          <CompletedModal controlCompletedModal={this.closeModal} />
+          <CompletedModal relevantQuiz={this.state.relevantQuizName} controlCompletedModal={this.closeModal} triggerRefetch={this.controlRefetch}/>
         )}
         {/*editModal*/}
         {this.state.edit && (

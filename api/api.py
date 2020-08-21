@@ -8,6 +8,18 @@ app = Flask(__name__)
 
 api = Api(app)
 
+class updateQuiz (Resource):
+    def put(self):
+        data = request.get_json()
+        name = data['name']
+        dueDate = data['dueDate']
+        connection = sqlite3.connect('quizDB')
+        cursor = connection.cursor()
+        cursor.execute("UPDATE quizes SET dueDate = ? WHERE name = ?",(dueDate,name,))
+        connection.commit()
+        cursor.close()
+        connection.close()
+
 class testsToday (Resource):
     def get(self):
         connection = sqlite3.connect('quizDB')
@@ -56,4 +68,5 @@ class deleteQuiz (Resource):
 api.add_resource(testsToday, '/testsToday')
 api.add_resource(tests, '/tests')
 api.add_resource(postQuiz, '/postQuiz')
+api.add_resource(updateQuiz, '/updateQuiz')
 api.add_resource(deleteQuiz, '/deleteQuiz/<string:name>')
