@@ -55,14 +55,15 @@ class TestComponent extends React.Component {
     });
   }
 
-  showModal(event) {
+    showModal(event) {
+    let quizName = event.target.className;
+    this.props.deliverRelevantQuiz(quizName);
     if (event.target.innerHTML === 'Completed'){
       this.props.controlCompletedModal(true);
     }
     else {
       this.props.controlEditModal(true);
     }
-
   }
 
   handleChange(event) {
@@ -246,8 +247,8 @@ class TestComponent extends React.Component {
                     <li>Tagged Event Date: {item[4]}</li>
                     <li>Last taken: {item[5]}</li>
                   </ul>
-                  <button onClick={this.showModal}>Completed</button>
-                  <button onClick={this.showModal}>Edit</button>
+                  <button className={item[1]} onClick={this.showModal}>Completed</button>
+                  <button className={item[1]} onClick={this.showModal}>Edit</button>
                 </div>
               ))}
               {this.state.noResults && (

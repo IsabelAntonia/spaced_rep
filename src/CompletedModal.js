@@ -4,12 +4,13 @@ import './Modal.css'
 
 
 class CompletedModal extends React.Component{
-
-      constructor(props) {
+    constructor(props) {
     super(props);
-
+    this.state = {
+        dueDate : '',
+    };
     this.closeModal = this.closeModal.bind(this);
-
+    this.setDueDate = this.setDueDate.bind(this);
   }
 
   closeModal(event){
@@ -18,17 +19,19 @@ class CompletedModal extends React.Component{
 
 render() {
     return (
-                  <div className="modal">
+            <div className="modal">
             <i onClick={this.closeModal} className="material-icons cross">close</i>
-                      <label style={{ fontSize: "1.6rem" }}>Schedule new due Date:</label>
-              {/*            <DatePicker*/}
-              {/*  selected={this.state.dueDate}*/}
-              {/*  onChange={this.setDueDate}*/}
-              {/*  name="dueDate"*/}
-              {/*  placeholderText="Click to select a date"*/}
-              {/*  dateFormat="dd.MM.yyyy"*/}
-              {/*  autoComplete="off"*/}
-              {/*/>*/}
+                <label style={{ fontSize: "1.6rem" }}>Manually schedule new due Date:</label>
+            <DatePicker
+            selected={this.state.dueDate}
+            onChange={this.setDueDate}
+            name="dueDate"
+            placeholderText="Click to select a date"
+            dateFormat="dd.MM.yyyy"
+            autoComplete="off"
+            />
+
+            <label style={{ fontSize: "1.6rem" }}>Quizzes are deactivated if they have no future due date.</label>
           </div>
     )
 }

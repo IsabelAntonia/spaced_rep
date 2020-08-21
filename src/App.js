@@ -142,6 +142,7 @@ class App extends Component {
                 </span>
                 {/*TestComponent constrols show of CompletedModal; CompletedModal controlls close*/}
                 <TestComponent
+                  deliverRelevantQuiz={this.controlRelevantQuiz}
                   refetchCondition={this.state.refetch}
                   controlCompletedModal={this.showCompletedModal}
                   controlEditModal={this.showEditModal}
