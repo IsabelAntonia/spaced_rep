@@ -43,13 +43,12 @@ class TestComponentToday extends React.Component {
     }
   }
 
-    showModal(event) {
+  showModal(event) {
     let quizName = event.target.className;
     this.props.deliverRelevantQuiz(quizName);
-    if (event.target.innerHTML === 'Completed'){
+    if (event.target.innerHTML === "Completed") {
       this.props.controlCompletedModal(true);
-    }
-    else {
+    } else {
       this.props.controlEditModal(true);
     }
   }
@@ -80,7 +79,6 @@ class TestComponentToday extends React.Component {
   }
 
   render() {
-
     const { error, isLoaded, items } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -108,10 +106,17 @@ class TestComponentToday extends React.Component {
                     <li>Due Date: {this.transformDate(item[2])}</li>
                     <li>Tagged Event: {item[3]}</li>
                     <li>Tagged Event Date: {item[4]}</li>
-                    <li>Last taken: {item[5]}</li>
+                    {item[5] === "never taken" && <li>Last taken: never</li>}
+                    {item[5] !== "never taken" && (
+                      <li>Last taken: {this.transformDate(item[5])}</li>
+                    )}
                   </ul>
-                  <button className={item[1]} onClick={this.showModal}>Completed</button>
-                  <button className={item[1]} onClick={this.showModal}>Edit</button>
+                  <button className={item[1]} onClick={this.showModal}>
+                    Completed
+                  </button>
+                  <button className={item[1]} onClick={this.showModal}>
+                    Edit
+                  </button>
                 </div>
               ))}
             </div>

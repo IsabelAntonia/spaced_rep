@@ -55,13 +55,12 @@ class TestComponent extends React.Component {
     });
   }
 
-    showModal(event) {
+  showModal(event) {
     let quizName = event.target.className;
     this.props.deliverRelevantQuiz(quizName);
-    if (event.target.innerHTML === 'Completed'){
+    if (event.target.innerHTML === "Completed") {
       this.props.controlCompletedModal(true);
-    }
-    else {
+    } else {
       this.props.controlEditModal(true);
     }
   }
@@ -78,7 +77,7 @@ class TestComponent extends React.Component {
     });
   }
 
-  // for filters and render transforms due Date to Date Format like '10.03.2020'
+  // for filters and render transforms dueDate to Date Format like '10.03.2020'
   transformDate(str) {
     let parts = str.split("-");
     return parts[2] + "." + parts[1] + "." + parts[0];
@@ -106,7 +105,6 @@ class TestComponent extends React.Component {
   }
 
   componentDidUpdate() {
-
     if (this.state.allItems.length === 0 && !this.state.noQuizes) {
       this.setState({
         noQuizes: true,
@@ -128,11 +126,11 @@ class TestComponent extends React.Component {
       let dueDateFilter =
         this.transformDate(everyTest[2]) ===
           this.transformCalendarDate(String(this.state.startDate)) ||
-        this.state.startDate === '' || this.state.startDate === null;
+        this.state.startDate === "" ||
+        this.state.startDate === null;
 
       return inactiveFilter && eventFilter && textFilter && dueDateFilter;
     });
-
 
     if (filteredItems.length === 0 && this.state.update) {
       this.setState({ noResults: true });
@@ -153,7 +151,7 @@ class TestComponent extends React.Component {
               isLoaded: true,
               items: result.tests,
               allItems: result.tests,
-              noQuizes: false
+              noQuizes: false,
             });
           },
           (error) => {
@@ -245,10 +243,17 @@ class TestComponent extends React.Component {
                     <li>Due Date: {this.transformDate(item[2])}</li>
                     <li>Tagged Event: {item[3]}</li>
                     <li>Tagged Event Date: {item[4]}</li>
-                    <li>Last taken: {item[5]}</li>
+                    {item[5] === "never taken" && <li>Last taken: never</li>}
+                    {item[5] !== "never taken" && (
+                      <li>Last taken: {this.transformDate(item[5])}</li>
+                    )}
                   </ul>
-                  <button className={item[1]} onClick={this.showModal}>Completed</button>
-                  <button className={item[1]} onClick={this.showModal}>Edit</button>
+                  <button className={item[1]} onClick={this.showModal}>
+                    Completed
+                  </button>
+                  <button className={item[1]} onClick={this.showModal}>
+                    Edit
+                  </button>
                 </div>
               ))}
               {this.state.noResults && (

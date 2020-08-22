@@ -1,25 +1,27 @@
 import React from "react";
 import DatePicker from "react-datepicker/es";
-import './Modal.css'
+import "./Modal.css";
 
-
-class CompletedModal extends React.Component{
-    constructor(props) {
+class CompletedModal extends React.Component {
+  constructor(props) {
     super(props);
     this.state = {
-        dueDate : '',
+      dueDate: "",
     };
     this.closeModal = this.closeModal.bind(this);
     this.setDueDate = this.setDueDate.bind(this);
     this.updateQuiz = this.updateQuiz.bind(this);
-    this.transformCalendarDateToDate = this.transformCalendarDateToDate.bind(this);
+    this.transformCalendarDateToDate = this.transformCalendarDateToDate.bind(
+      this
+    );
+    this.JSDateToDate = this.JSDateToDate.bind(this);
   }
   setDueDate(date) {
     this.setState({
       dueDate: date,
     });
   }
-    transformCalendarDateToDate(str) {
+  transformCalendarDateToDate(str) {
     let months = {
       Jan: "01",
       Feb: "02",
@@ -39,57 +41,72 @@ class CompletedModal extends React.Component{
     return parts[3] + "-" + months[parts[1]] + "-" + parts[2];
   }
 
-  closeModal(event){
+  JSDateToDate() {
+    let d = this.transformCalendarDateToDate(String(new Date()));
+    return d;
+  }
+
+  closeModal(event) {
     this.props.controlCompletedModal(false);
   }
 
-    updateQuiz(e) {
-      const dueDate = this.transformCalendarDateToDate(String(this.state.dueDate));
-      fetch("/updateQuiz", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            name: this.props.relevantQuiz,
-            dueDate: dueDate,
-          //lastTaken: this.state.lastTaken,
-          //status: this.state.statusOfTest,
-        }),
-      });
+  updateQuiz(e) {
+    const dueDate = this.transformCalendarDateToDate(
+      String(this.state.dueDate)
+    );
+    const lastTaken = this.JSDateToDate();
+    console.log(dueDate);
+    console.log(lastTaken);
+    fetch("/updateQuiz", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: this.props.relevantQuiz,
+        dueDate: dueDate,
+        lastTaken: lastTaken,
+        //status: this.state.statusOfTest,
+      }),
+    });
 
-      this.setState({
-        dueDate: "",
-      });
+    this.setState({
+      dueDate: "",
+    });
 
-      this.props.controlCompletedModal(false);
-      this.props.triggerRefetch(true);
-    }
+    this.props.controlCompletedModal(false);
+    this.props.triggerRefetch(true);
+  }
 
-render() {
+  render() {
     return (
-            <div className="modal">
-            <i onClick={this.closeModal} className="material-icons cross">close</i>
-                <label style={{ fontSize: "1.6rem" }}>Manually schedule new due Date:</label>
-            <DatePicker
-            selected={this.state.dueDate}
-            onChange={this.setDueDate}
-            name="dueDate"
-            placeholderText="Click to select a date"
-            dateFormat="dd.MM.yyyy"
-            autoComplete="off"
-            />
-
-            <label style={{ fontSize: "1.6rem" }}>Quizzes are deactivated if they have no future due date.</label>
-                <button
+      <div className="modal">
+        <i onClick={this.closeModal} className="material-icons cross">
+          close
+        </i>
+        <label style={{ fontSize: "1.6rem" }}>
+          Manually schedule new due Date:
+        </label>
+        <DatePicker
+          selected={this.state.dueDate}
+          onChange={this.setDueDate}
+          name="dueDate"
+          placeholderText="Click to select a date"
+          dateFormat="dd.MM.yyyy"
+          autoComplete="off"
+        />
+        <label style={{ fontSize: "1.6rem" }}>
+          Quizzes are deactivated if they have no future due date.
+        </label>
+        <button
           onClick={this.updateQuiz}
           style={{ margin: "4rem auto 0 auto" }}
         >
           Done
         </button>
-          </div>
-    )
-}
+      </div>
+    );
+  }
 }
 
 export default CompletedModal;

@@ -14,7 +14,7 @@ class CreateModal extends React.Component {
       statusOfTest: "due",
       validInput: true,
       noDueDate: false,
-      noName: false
+      noName: false,
     };
 
     this.closeModal = this.closeModal.bind(this);
@@ -36,24 +36,20 @@ class CreateModal extends React.Component {
     if (this.state.dueDate === "") {
       noDueDate = true;
       this.setState({
-        noDueDate: true
-      })
-
+        noDueDate: true,
+      });
     }
 
     if (this.state.nameOfTest === "") {
       noName = true;
       this.setState({
-        noName: true
-      })
+        noName: true,
+      });
     }
-
 
     if (noName || noDueDate) {
       return false;
-    }
-
-    else {
+    } else {
       return true;
     }
   }
@@ -123,7 +119,6 @@ class CreateModal extends React.Component {
   }
 
   postQuiz(e) {
-
     const validInput = this.verifyInput();
     if (validInput) {
       const dueDate = this.transformCalendarDateToDate(
@@ -132,8 +127,11 @@ class CreateModal extends React.Component {
 
       let taggedEventDate = this.state.taggedEventDate;
       // only transform taggedEventDate if a date was selected
-      if (this.state.taggedEventDate !== 'no tagged event date'){ // a date was selected in calendar
-        taggedEventDate  = this.transformCalendarDate(String(this.state.taggedEventDate));
+      if (this.state.taggedEventDate !== "no tagged event date") {
+        // a date was selected in calendar
+        taggedEventDate = this.transformCalendarDate(
+          String(this.state.taggedEventDate)
+        );
       }
 
       fetch("/postQuiz", {
@@ -160,12 +158,10 @@ class CreateModal extends React.Component {
 
       this.props.controlModal(false);
       this.props.triggerRefetch(true);
-    }
-
-    else {
+    } else {
       this.setState({
-        validInput : false
-      })
+        validInput: false,
+      });
     }
   }
 
@@ -182,7 +178,7 @@ class CreateModal extends React.Component {
           close
         </i>
         <label style={{ fontSize: "1.6rem" }}>Name:</label>
-        {this.state.noName && <span style={{color: 'red'}}>Required</span>}
+        {this.state.noName && <span style={{ color: "red" }}>Required</span>}
         <input
           autoComplete="off"
           className="inputTestField"
@@ -192,7 +188,7 @@ class CreateModal extends React.Component {
           onChange={this.handleChange}
         />
         <label style={{ fontSize: "1.6rem" }}>Initially due:</label>
-        {this.state.noDueDate && <span style={{color: 'red'}}>Required</span>}
+        {this.state.noDueDate && <span style={{ color: "red" }}>Required</span>}
         <DatePicker
           selected={this.state.dueDate}
           onChange={this.setDueDate}
@@ -221,13 +217,14 @@ class CreateModal extends React.Component {
           dateFormat="dd.MM.yyyy"
           autoComplete="off"
         />
-        <button
-          onClick={this.postQuiz}
-          style={{ margin: "4rem auto 0 auto" }}
-        >
+        <button onClick={this.postQuiz} style={{ margin: "4rem auto 0 auto" }}>
           Done
         </button>
-        {!this.state.validInput && <div style={{color: 'red'}}>Please fill out the required fields.</div>}
+        {!this.state.validInput && (
+          <div style={{ color: "red" }}>
+            Please fill out the required fields.
+          </div>
+        )}
       </div>
     );
   }
