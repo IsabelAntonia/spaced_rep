@@ -14,9 +14,10 @@ class updateQuiz (Resource):
         name = data['name']
         dueDate = data['dueDate']
         lastTaken = data['lastTaken']
+        status = data['status']
         connection = sqlite3.connect('quizDB')
         cursor = connection.cursor()
-        cursor.execute("UPDATE quizes SET dueDate = ?, lastTaken = ? WHERE name = ?",(dueDate,lastTaken,name,))
+        cursor.execute("UPDATE quizes SET dueDate = ?, lastTaken = ?, status = ? WHERE name = ?",(dueDate,lastTaken,status,name,))
         connection.commit()
         cursor.close()
         connection.close()

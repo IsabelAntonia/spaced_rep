@@ -240,7 +240,12 @@ class TestComponent extends React.Component {
                 >
                   <ul>
                     <li className="testTitle">{item[1]}</li>
-                    <li>Due Date: {this.transformDate(item[2])}</li>
+                    {item[2] === "" && (
+                      <li>Edit this quiz to reactivate it.</li>
+                    )}
+                    {item[2] !== "" && (
+                      <li>Due Date: {this.transformDate(item[2])}</li>
+                    )}
                     <li>Tagged Event: {item[3]}</li>
                     <li>Tagged Event Date: {item[4]}</li>
                     {item[5] === "never taken" && <li>Last taken: never</li>}

@@ -10,9 +10,17 @@
 
 }
 
+.pressed:focus {
+    background-color: #1c92d2;
+}
+
 .cross {
     position: absolute;
     left: 1.5rem;
     top: 1.5rem;
 
+}
+
+i {
+    margin: 15rem;
 }
