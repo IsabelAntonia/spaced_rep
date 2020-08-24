@@ -15,7 +15,8 @@ class App extends Component {
       refetch: false,
       completed: false,
       edit: false,
-      relevantQuizName: ""
+      relevantQuizName: "",
+      relevantQuizTaggedDate: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,9 +33,10 @@ class App extends Component {
     });
   }
 
-  controlRelevantQuiz(name){
+  controlRelevantQuiz(name,date){
     this.setState({
       relevantQuizName: name,
+      relevantQuizTaggedDate: date
     })
   }
 
@@ -84,11 +86,11 @@ class App extends Component {
       <>
         {/*completedModal*/}
         {this.state.completed && (
-          <CompletedModal relevantQuiz={this.state.relevantQuizName} controlCompletedModal={this.closeModal} triggerRefetch={this.controlRefetch}/>
+          <CompletedModal relevantQuizTaggedDate ={this.state.relevantQuizTaggedDate} relevantQuizName={this.state.relevantQuizName} controlCompletedModal={this.closeModal} triggerRefetch={this.controlRefetch}/>
         )}
         {/*editModal*/}
         {this.state.edit && (
-          <EditModal relevantQuiz={this.state.relevantQuizName} triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
+          <EditModal relevantQuizName={this.state.relevantQuizName} relevantQuizTaggedDate ={this.state.relevantQuizTaggedDate} triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
         )}
         {/*create new quiz modal*/}
         {creating && (

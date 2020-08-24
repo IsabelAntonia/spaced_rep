@@ -56,8 +56,10 @@ class TestComponent extends React.Component {
   }
 
   showModal(event) {
-    let quizName = event.target.className;
-    this.props.deliverRelevantQuiz(quizName);
+    let classNamesArr = event.target.className.split("|");
+    let quizName = classNamesArr[0]
+    let quizTaggedDate = classNamesArr[1]
+    this.props.deliverRelevantQuiz(quizName, quizTaggedDate);
     if (event.target.innerHTML === "Completed") {
       this.props.controlCompletedModal(true);
     } else {
@@ -253,10 +255,18 @@ class TestComponent extends React.Component {
                       <li>Last taken: {this.transformDate(item[5])}</li>
                     )}
                   </ul>
-                  <button className={item[1]} onClick={this.showModal}>
-                    Completed
-                  </button>
-                  <button className={item[1]} onClick={this.showModal}>
+                  {item[6] !== "inactive" && (
+                    <button
+                      className={`${item[1]}|${item[4]}`}
+                      onClick={this.showModal}
+                    >
+                      Completed
+                    </button>
+                  )}
+                  <button
+                    className={`${item[1]}|${item[4]}`}
+                    onClick={this.showModal}
+                  >
                     Edit
                   </button>
                 </div>

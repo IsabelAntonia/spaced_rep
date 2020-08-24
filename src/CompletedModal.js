@@ -101,12 +101,10 @@ class CompletedModal extends React.Component {
 
   updateQuiz(e) {
     if (this.state.selectedOption === "manually" && this.state.dueDate === "") {
-      console.log("Please select a date in the calendar.");
       this.setState({
         noDueDate: true,
       });
     } else if (this.state.selectedOption === "") {
-      console.log("Please choose an action.");
       this.setState({
         noSelectedOption: true,
       });
@@ -118,7 +116,7 @@ class CompletedModal extends React.Component {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: this.props.relevantQuiz,
+          name: this.props.relevantQuizName,
           dueDate: this.state.dueDate,
           lastTaken: lastTaken,
           status: this.state.statusOfTest,
@@ -145,6 +143,7 @@ class CompletedModal extends React.Component {
             checked={this.state.selectedOption === "tmr"}
             value="tmr"
             type="radio"
+            //disabled={this.props.relevantQuiz.taggedEventDate}
             onChange={this.handleOptionChange}
           />
           Tomorrow
@@ -202,6 +201,7 @@ class CompletedModal extends React.Component {
             Please select a new due date or deactivate this quiz.
           </div>
         )}
+        <div>{this.props.relevantQuizTaggedDate}</div>
       </div>
     );
   }
