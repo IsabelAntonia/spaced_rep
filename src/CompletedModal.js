@@ -10,6 +10,8 @@ class CompletedModal extends React.Component {
       calendarDate: "",
       selectedOption: "",
       statusOfTest: "due",
+      noDueDate: false,
+      noSelectedOption: false,
     };
     this.closeModal = this.closeModal.bind(this);
     this.setDueDateFromCalendar = this.setDueDateFromCalendar.bind(this);
@@ -98,15 +100,17 @@ class CompletedModal extends React.Component {
   }
 
   updateQuiz(e) {
-
     if (this.state.selectedOption === "manually" && this.state.dueDate === "") {
       console.log("Please select a date in the calendar.");
-    }
-
-    else if (this.state.selectedOption === ""){
-      console.log("Please choose an action.")
-    }
-    else {
+      this.setState({
+        noDueDate: true,
+      });
+    } else if (this.state.selectedOption === "") {
+      console.log("Please choose an action.");
+      this.setState({
+        noSelectedOption: true,
+      });
+    } else {
       const lastTaken = this.JSDateToDate();
       fetch("/updateQuiz", {
         method: "PUT",
@@ -152,7 +156,7 @@ class CompletedModal extends React.Component {
             type="radio"
             onChange={this.handleOptionChange}
           />
-          Two days from now
+          Two days break
         </label>
         <label style={{ fontSize: "1.6rem" }}>
           <input
@@ -173,6 +177,11 @@ class CompletedModal extends React.Component {
             autoComplete="off"
           />
         )}
+         {this.state.noDueDate && (
+          <div style={{ color: "red" }}>
+            Please select a date in the calendar.
+          </div>
+        )}
         <label style={{ fontSize: "1.6rem" }}>
           <input
             checked={this.state.selectedOption === "deactivate"}
@@ -188,6 +197,11 @@ class CompletedModal extends React.Component {
         >
           Done
         </button>
+        {this.state.noSelectedOption && (
+          <div style={{ color: "red" }}>
+            Please select a new due date or deactivate this quiz.
+          </div>
+        )}
       </div>
     );
   }
