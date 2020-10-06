@@ -110,7 +110,7 @@ class CompletedModal extends React.Component {
       });
     } else {
       const lastTaken = this.JSDateToDate();
-      fetch("/updateQuiz", {
+      fetch("/updateQuizFromCompleted", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

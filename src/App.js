@@ -16,7 +16,8 @@ class App extends Component {
       completed: false,
       edit: false,
       relevantQuizName: "",
-      relevantQuizTaggedDate: ""
+      relevantQuizStatus: "", //only changes when TestComponent sends a inactive
+      relevantQuizTaggedDate: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,11 +34,13 @@ class App extends Component {
     });
   }
 
-  controlRelevantQuiz(name,date){
+  controlRelevantQuiz(name, date, status) {
+    console.log(status);
     this.setState({
       relevantQuizName: name,
-      relevantQuizTaggedDate: date
-    })
+      relevantQuizTaggedDate: date,
+      relevantQuizStatus: status,
+    });
   }
 
   // on TestComponent
@@ -58,7 +61,7 @@ class App extends Component {
     this.setState({
       completed: boolean,
       creating: boolean,
-      edit: boolean
+      edit: boolean,
     });
   }
 
@@ -86,11 +89,22 @@ class App extends Component {
       <>
         {/*completedModal*/}
         {this.state.completed && (
-          <CompletedModal relevantQuizTaggedDate ={this.state.relevantQuizTaggedDate} relevantQuizName={this.state.relevantQuizName} controlCompletedModal={this.closeModal} triggerRefetch={this.controlRefetch}/>
+          <CompletedModal
+            relevantQuizTaggedDate={this.state.relevantQuizTaggedDate}
+            relevantQuizName={this.state.relevantQuizName}
+            controlCompletedModal={this.closeModal}
+            triggerRefetch={this.controlRefetch}
+          />
         )}
         {/*editModal*/}
         {this.state.edit && (
-          <EditModal relevantQuizName={this.state.relevantQuizName} relevantQuizTaggedDate ={this.state.relevantQuizTaggedDate} triggerRefetch={this.controlRefetch} controlEditModal={this.closeModal} />
+          <EditModal
+            relevantQuizName={this.state.relevantQuizName}
+            relevantQuizStatus={this.state.relevantQuizStatus}
+            relevantQuizTaggedDate={this.state.relevantQuizTaggedDate}
+            triggerRefetch={this.controlRefetch}
+            controlEditModal={this.closeModal}
+          />
         )}
         {/*create new quiz modal*/}
         {creating && (

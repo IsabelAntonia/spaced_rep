@@ -45,9 +45,10 @@ class TestComponentToday extends React.Component {
 
   showModal(event) {
     let classNamesArr = event.target.className.split("|");
-    let quizName = classNamesArr[0]
-    let quizTaggedDate = classNamesArr[1]
-    this.props.deliverRelevantQuiz(quizName, quizTaggedDate);
+    let quizName = classNamesArr[0];
+    let quizTaggedDate = classNamesArr[1];
+    let quizStatus = classNamesArr[2];
+    this.props.deliverRelevantQuiz(quizName, quizTaggedDate, quizStatus);
     if (event.target.innerHTML === "Completed") {
       this.props.controlCompletedModal(true);
     } else {
@@ -105,11 +106,11 @@ class TestComponentToday extends React.Component {
                 <div className="testContainer active" key={index}>
                   <ul>
                     <li className="testTitle">{item[1]}</li>
-                    {item[2] === "" &&(
-                        <li>Edit this quiz to reactivate it.</li>
+                    {item[2] === "" && (
+                      <li>Edit this quiz to reactivate it.</li>
                     )}
-                    {item[2] !== "" &&(
-                        <li>Due Date: {this.transformDate(item[2])}</li>
+                    {item[2] !== "" && (
+                      <li>Due Date: {this.transformDate(item[2])}</li>
                     )}
                     <li>Tagged Event: {item[3]}</li>
                     <li>Tagged Event Date: {item[4]}</li>
@@ -118,10 +119,16 @@ class TestComponentToday extends React.Component {
                       <li>Last taken: {this.transformDate(item[5])}</li>
                     )}
                   </ul>
-                  <button className={`${item[1]}|${item[4]}`} onClick={this.showModal}>
+                  <button
+                    className={`${item[1]}|${item[4]}|${item[6]}`}
+                    onClick={this.showModal}
+                  >
                     Completed
                   </button>
-                  <button className={`${item[1]}|${item[4]}`} onClick={this.showModal}>
+                  <button
+                    className={`${item[1]}|${item[4]}|${item[6]}`}
+                    onClick={this.showModal}
+                  >
                     Edit
                   </button>
                 </div>

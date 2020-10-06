@@ -57,9 +57,10 @@ class TestComponent extends React.Component {
 
   showModal(event) {
     let classNamesArr = event.target.className.split("|");
-    let quizName = classNamesArr[0]
-    let quizTaggedDate = classNamesArr[1]
-    this.props.deliverRelevantQuiz(quizName, quizTaggedDate);
+    let quizName = classNamesArr[0];
+    let quizTaggedDate = classNamesArr[1];
+    let quizStatus = classNamesArr[2];
+    this.props.deliverRelevantQuiz(quizName, quizTaggedDate, quizStatus);
     if (event.target.innerHTML === "Completed") {
       this.props.controlCompletedModal(true);
     } else {
@@ -115,7 +116,7 @@ class TestComponent extends React.Component {
 
     let filteredItems = this.state.allItems.filter((everyTest) => {
       let inactiveFilter =
-        (everyTest[6] === "inactive") == this.state.showInactives ||
+        (everyTest[6] === "inactive") === this.state.showInactives ||
         everyTest[6] !== "inactive";
       let eventFilter =
         everyTest[3] === this.state.selectedEvent ||
@@ -221,7 +222,6 @@ class TestComponent extends React.Component {
                   type="text"
                   placeholder="Search for title"
                   name="searchInput"
-                  type="text"
                   value={this.state.searchInput}
                   onChange={this.handleChange}
                 />
@@ -255,16 +255,17 @@ class TestComponent extends React.Component {
                       <li>Last taken: {this.transformDate(item[5])}</li>
                     )}
                   </ul>
+                  {/*only show completed button when status is active*/}
                   {item[6] !== "inactive" && (
                     <button
-                      className={`${item[1]}|${item[4]}`}
+                      className={`${item[1]}|${item[4]}|${item[6]}`}
                       onClick={this.showModal}
                     >
                       Completed
                     </button>
                   )}
                   <button
-                    className={`${item[1]}|${item[4]}`}
+                    className={`${item[1]}|${item[4]}|${item[6]}`}
                     onClick={this.showModal}
                   >
                     Edit

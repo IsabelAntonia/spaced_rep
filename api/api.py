@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 api = Api(app)
 
-class updateQuiz (Resource):
+class updateQuizFromCompleted (Resource):
     def put(self):
         data = request.get_json()
         name = data['name']
@@ -18,6 +18,18 @@ class updateQuiz (Resource):
         connection = sqlite3.connect('quizDB')
         cursor = connection.cursor()
         cursor.execute("UPDATE quizes SET dueDate = ?, lastTaken = ?, status = ? WHERE name = ?",(dueDate,lastTaken,status,name,))
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+class updateQuizFromEdit (Resource):
+    def put(self):
+        data = request.get_json()
+        name = data['name']
+        status = data['status']
+        connection = sqlite3.connect('quizDB')
+        cursor = connection.cursor()
+        cursor.execute("UPDATE quizes SET status = ? WHERE name = ?",(status,name,))
         connection.commit()
         cursor.close()
         connection.close()
@@ -70,5 +82,6 @@ class deleteQuiz (Resource):
 api.add_resource(testsToday, '/testsToday')
 api.add_resource(tests, '/tests')
 api.add_resource(postQuiz, '/postQuiz')
-api.add_resource(updateQuiz, '/updateQuiz')
+api.add_resource(updateQuizFromCompleted, '/updateQuizFromCompleted')
+api.add_resource(updateQuizFromEdit, '/updateQuizFromEdit')
 api.add_resource(deleteQuiz, '/deleteQuiz/<string:name>')
